@@ -3,53 +3,61 @@
 
 Table character {
   id SERIAL [primary key]
-  userId SERIAL [note: 'determines user access', not null]
+  userId SERIAL [not null]
   campaignId SERIAL [not null]
-  raceId SERIAL [ref: > race.id, not null]
-  statsId SERIAL [ref: > stats.id, not null]
   maxHP integer [not null]
   currentHP integer [not null]
+  strength integer [not null]
+  dexterity integer [not null]
+  constitution integer [not null]
+  intelligence integer [not null]
+  wisdom integer [not null]
+  charisma integer [not null]
+  race TEXT [not null]
+  subrace TEXT [not null]
+  heightInches integer [not null]
+  weightPounds integer [not null] 
+  speed integer [not null]
+  isProficientInAcrobatics boolean [not null]
+  isProficientInAnimalHandling boolean [not null]
+  isProficientInArcana boolean [not null]
+  isProficientInAthletics boolean [not null]
+  isProficientInDeception boolean [not null]
+  isProficientInHistory boolean [not null]
+  isProficientInInsight boolean [not null]
+  isProficientInIntimidation boolean [not null]
+  isProficientInInvestigation boolean [not null]
+  isProficientInMedicine boolean [not null]
+  isProficientInNature boolean [not null]
+  isProficientInPerception boolean [not null]
+  isProficientInPerformance boolean [not null]
+  isProficientInPersuasion boolean [not null]
+  isProficientInReligion boolean [not null]
+  isProficientInSleightOfHand boolean [not null]
+  isProficientInStealth boolean [not null]
+  isProficientInSurvival boolean [not null]
 }
 
-Table charecterItems {
-  charecterId SERIAL [ref: > character.id, not null]
+Table characterItems {
+  characterId SERIAL [ref: > character.id, not null]
   itemId SERIAL [ref: > item.id, not null]
 }
 
-Table charecterSpells {
-  charecterId SERIAL [ref: > character.id, not null]
+Table characterSpells {
+  characterId SERIAL [ref: > character.id, not null]
   spellId SERIAL [ref: > spell.id, not null]
 }
 
-Table charecterWeapons {
-  charecterId SERIAL [ref: > character.id, not null]
+Table characterWeapons {
+  characterId SERIAL [ref: > character.id, not null]
   weaponId SERIAL [ref: > weapon.id, not null]
   isCurrentlyEquipped boolean [not null]
 }
 
-Table charecterArmor {
-  charecterId SERIAL [ref: > character.id, not null]
+Table characterArmor {
+  characterId SERIAL [ref: > character.id, not null]
   armorId SERIAL [ref: > armor.id, not null]
   isCurrentlyEquipped boolean [not null]
-}
-
-Table stats {
-  id SERIAL [primary key]
-  str integer [not null]
-  dex integer [not null]
-  con integer [not null]
-  int integer [not null]
-  wis integer [not null]
-  cha integer [not null]
-}
-
-Table race {
-  id SERIAL [primary key]
-  race TEXT [not null]
-  subrace TEXT [not null]
-  size char [not null]
-  speed integer [not null]
-  statBonuses SERIAL [ref: > stats.id, not null]
 }
 
 Table user {
@@ -67,7 +75,7 @@ enum ROLE {
 Table role {
   campaignId SERIAL [ref: > campaign.id, not null]
   userId SERIAL [ref: > user.id, not null]
-  role ROLE [note: 'user or dm, controls views the user can access']
+  role ROLE [not null, note: 'user or dm, controls views the user can access']
 }
 
 Table campaign {
@@ -82,8 +90,8 @@ Table encounter {
 }
 
 Table action {
-  characterId SERIAL [ref: > character.id]
-  targetId SERIAL [ref: > character.id]
+  characterId SERIAL [ref: > character.id, not null]
+  targetId SERIAL [ref: > character.id, not null]
   encounter SERIAL [ref: > encounter.id, not null]
 }
 
@@ -106,10 +114,11 @@ enum DAMAGE_TYPE {
 Table weapon {
   id SERIAL [primary key]
   name TEXT [not null]
-  description text
-  range numeric
+  description text [not null]
+  range numeric [not null]
   weight numeric [not null]
   valueCopper integer [not null]
+  savingThrowType STAT_TYPE
 }
 
 Table damage {
@@ -133,24 +142,23 @@ enum SPELL_COMPONENT {
 Table spell {
   id SERIAL [primary key]
   name TEXT [not null]
-  description text
-  range numeric
-  minimumLevel integer
-  castingTimeSeconds integer
-  durationSeconds text 
-  requiresConcentration boolean
+  description text [not null]
+  range numeric [not null]
+  minimumLevel integer [not null]
+  castingTimeSeconds integer [not null]
+  durationSeconds text  [not null]
+  requiresConcentration boolean [not null]
+  requiresVerbalComponent boolean [not null]
+  requiresSomaticComponent boolean [not null]
+  requiresMaterialComponent boolean [not null]
+  savingThrowType STAT_TYPE
 }
 
 Table spellDamage {
   spellId SERIAL [ref: > spell.id, not null]
   damageId SERIAL [ref: > damage.id, not null]
-  savingThrowId SERIAL [ref: > damage.id, not null]
 }
 
-Table spellComponents {
-  spellId SERIAL [ref: > spell.id, not null]
-  component SPELL_COMPONENT [not null]
-}
 
 enum ARMOR_CATEGORY {
   LIGHT
@@ -178,18 +186,34 @@ Table item {
   valueCoper integer [not null]
 }
 
-Table savingThrow {
-  id SERIAL [primary key]
-  minimumRoll integer [not null]
-  statType STAT_TYPE [not null]
-  diceSides integer [default: 20]
-}
 
 Enum STAT_TYPE {
-  STR
-  DEX
-  CON
-  INT
-  WIS
-  CHA
+  STRENGTH
+  DEXTERITY
+  CONSTITUTION
+  INTELLIGENCE
+  WISDOM
+  CHARISMA
+}
+
+Table statEffect {
+  id SERIAL [primary key]
+  stat STAT_TYPE [not null]
+  modifier integer [not null]
+}
+
+Table resistance {
+  id SERIAL [primary key]
+  stat DAMAGE_TYPE [not null]
+  modifier integer [not null]
+}
+
+Table characterStatEffects {
+  characterId SERIAL [not null, ref: > character.id]
+  statEffectId SERIAL [not null, ref: > statEffect.id]
+}
+
+Table characterResistances {
+  characterId SERIAL [not null, ref: > character.id]
+  resistanceId SERIAL [not null, ref: > resistance.id]
 }

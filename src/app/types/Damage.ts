@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Die } from "./Dice.ts";
+import { Die } from "./Dice";
 
 /**
  * All of the types of attack damage
