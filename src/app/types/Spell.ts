@@ -1,6 +1,4 @@
 import * as t from "io-ts";
-import { SavingThrow } from "./SavingThrow";
-import { Damage } from "./Damage";
 import { DamageCausing, Describable } from "./Base";
 
 export type SpellT = t.TypeOf<typeof Spell>;

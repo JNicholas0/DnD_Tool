@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { SavingThrow } from "./SavingThrow";
 import { Damage } from "./Damage";
+import { StatType } from "./Stats";
 
 /**
  * Anything that has a name and description.
@@ -35,6 +35,6 @@ export const DamageCausing = t.intersection([
     range: t.number,
   }),
   t.partial({
-    savingThrow: SavingThrow,
+    savingThrowType: StatType,
   }),
 ]);
