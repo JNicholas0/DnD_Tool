@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-// import { Html } from 'next/document';
+import { NextAuthProvider } from "@_index"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // <Html data-theme="fantasy">
+    <NextAuthProvider>
       <html data-theme="autumn">
         <body className={inter.className}>{children}</body>
       </html>
-    // </Html>
+    </NextAuthProvider>
   );
 }

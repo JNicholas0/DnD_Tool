@@ -25,7 +25,7 @@ export default function Navbar(LoggedIn: boolean) {
                 </div>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
-                    <li><a>Link</a></li>
+                    <li><a>Landing</a></li>
                     <li>
                         <details>
                         <summary>
