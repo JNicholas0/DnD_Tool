@@ -1,24 +1,27 @@
 // uses a list of campaigns accessible to user
-import React from "react";
+import { Children } from "react";
 import { concat } from "fp-ts/lib/ReadonlyNonEmptyArray"
+import { forEachChild } from "typescript";
 
-export default function NavBar(LoggedIn: boolean) {
-    const userCampaigns = ["Eldoria", "Campaign 1", "Campaign 2"]
+const userCampaigns = ["Eldoria", "Campaign 1", "Campaign 2"]
+// const userCampaignUrls = 
 
-    function CampaignListGen(CampaignList: string[] = userCampaigns) {
-        var outString = ""
-        for (let i = 0; i < CampaignList.length; i++) {
-            outString = outString.concat(outString,"<li><a href = ","./campaign",">",CampaignList[i],"</a></li>")
-        }
-        return( 
-            React.createElement(outString)
-         )
-    }
+function CampaignListGen(CampaignList: string[] = userCampaigns) {    
+    const mappedCampaigns = Children.map(userCampaigns, campaign =>
+        <li><a href="./campaign">{campaign}</a></li>
+    )
+    return (
+        mappedCampaigns
+    )
+}
+
+export default function Navbar(LoggedIn: boolean) {
+    var mappedCampaigns = CampaignListGen();
     if (LoggedIn == true){
         return (
             <div className="navbar bg-base-100">
                 <div className="flex-1">
-                    <a className="btn btn-ghost text-xl">[ ] DnD Tool</a>
+                    <a className="btn btn-ghost text-xl" href=".">[ ] DnD Tool</a>
                 </div>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
@@ -26,10 +29,10 @@ export default function NavBar(LoggedIn: boolean) {
                     <li>
                         <details>
                         <summary>
-                            Parent
+                            Campaign
                         </summary>
                         <ul className="p-2 bg-base-100 rounded-t-none">
-                            {CampaignListGen()}
+                            {mappedCampaigns}
                         </ul>
                         </details>
                     </li>
@@ -39,9 +42,11 @@ export default function NavBar(LoggedIn: boolean) {
             );
     }
     else{
+    return (
     <div className="navbar bg-base-100">
         <a className="btn btn-ghost text-xl">[ ] DnD Tool</a>
     </div>
+    );
     }
 }
 
