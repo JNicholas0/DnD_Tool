@@ -1,10 +1,11 @@
 // Use DBML to define your database structure
 // Docs: https://dbml.dbdiagram.io/docs
 
-Table character {
+Table Character {
   id SERIAL [primary key]
-  userId SERIAL [not null]
+  userId SERIAL [ref: > User.id, not null]
   campaignId SERIAL [not null]
+  level integer, [not null]
   maxHP integer [not null]
   currentHP integer [not null]
   strength integer [not null]
@@ -38,29 +39,29 @@ Table character {
   isProficientInSurvival boolean [not null]
 }
 
-Table characterItems {
-  characterId SERIAL [ref: > character.id, not null]
-  itemId SERIAL [ref: > item.id, not null]
+Table CharacterItems {
+  characterId SERIAL [ref: > Character.id, not null]
+  itemId SERIAL [ref: > Item.id, not null]
 }
 
-Table characterSpells {
-  characterId SERIAL [ref: > character.id, not null]
-  spellId SERIAL [ref: > spell.id, not null]
+Table CharacterSpells {
+  characterId SERIAL [ref: > Character.id, not null]
+  spellId SERIAL [ref: > Spell.id, not null]
 }
 
-Table characterWeapons {
-  characterId SERIAL [ref: > character.id, not null]
-  weaponId SERIAL [ref: > weapon.id, not null]
+Table CharacterWeapons {
+  characterId SERIAL [ref: > Character.id, not null]
+  weaponId SERIAL [ref: > Weapon.id, not null]
   isCurrentlyEquipped boolean [not null]
 }
 
-Table characterArmor {
-  characterId SERIAL [ref: > character.id, not null]
-  armorId SERIAL [ref: > armor.id, not null]
+Table CharacterArmor {
+  characterId SERIAL [ref: > Character.id, not null]
+  armorId SERIAL [ref: > Armor.id, not null]
   isCurrentlyEquipped boolean [not null]
 }
 
-Table user {
+Table User {
   id SERIAL [primary key]
   username TEXT [not null]
   role TEXT [not null]
@@ -72,27 +73,27 @@ enum ROLE {
   PLAYER
 }
 
-Table role {
-  campaignId SERIAL [ref: > campaign.id, not null]
-  userId SERIAL [ref: > user.id, not null]
+Table Role {
+  campaignId SERIAL [ref: > Campaign.id, not null]
+  userId SERIAL [ref: > User.id, not null]
   role ROLE [not null, note: 'user or dm, controls views the user can access']
 }
 
-Table campaign {
+Table Campaign {
   id SERIAL [primary key]
   name TEXT [not null]
 }
 
-Table encounter {
+Table Encounter {
   id SERIAL [primary key, note: 'prompt DM upon creation']
   totalRounds integer [not null]
   completed boolean [not null]
 }
 
-Table action {
-  characterId SERIAL [ref: > character.id, not null]
-  targetId SERIAL [ref: > character.id, not null]
-  encounter SERIAL [ref: > encounter.id, not null]
+Table Action {
+  characterId SERIAL [ref: > Character.id, not null]
+  targetId SERIAL [ref: > Character.id, not null]
+  encounter SERIAL [ref: > Encounter.id, not null]
 }
 
 enum DAMAGE_TYPE {
@@ -111,7 +112,7 @@ enum DAMAGE_TYPE {
   THUNDER
 }
 
-Table weapon {
+Table Weapon {
   id SERIAL [primary key]
   name TEXT [not null]
   description text [not null]
@@ -121,16 +122,16 @@ Table weapon {
   savingThrowType STAT_TYPE
 }
 
-Table damage {
+Table Damage {
   id SERIAL [primary key]
   dieSides integer [not null]
   numberOfDice integer [not null]
   damageType DAMAGE_TYPE [not null]
 }
 
-Table weaponDamage {
-  weaponId SERIAL [ref: > weapon.id, not null]
-  damageId SERIAL [ref: > damage.id, not null]
+Table WeaponDamage {
+  weaponId SERIAL [ref: > Weapon.id, not null]
+  damageId SERIAL [ref: > Damage.id, not null]
 }
 
 enum SPELL_COMPONENT {
@@ -139,7 +140,7 @@ enum SPELL_COMPONENT {
   MATERIAL
 }
 
-Table spell {
+Table Spell {
   id SERIAL [primary key]
   name TEXT [not null]
   description text [not null]
@@ -154,9 +155,9 @@ Table spell {
   savingThrowType STAT_TYPE
 }
 
-Table spellDamage {
-  spellId SERIAL [ref: > spell.id, not null]
-  damageId SERIAL [ref: > damage.id, not null]
+Table SpellDamage {
+  spellId SERIAL [ref: > Spell.id, not null]
+  damageId SERIAL [ref: > Damage.id, not null]
 }
 
 
@@ -167,7 +168,7 @@ enum ARMOR_CATEGORY {
   SHIELD
 }
 
-Table armor {
+Table Armor {
   id SERIAL [primary key]
   name TEXT [not null]
   category ARMOR_CATEGORY [not null]
@@ -178,7 +179,7 @@ Table armor {
   valueCopper integer [not null]
 }
 
-Table item {
+Table Item {
   id SERIAL [primary key]
   name TEXT [not null]
   description TEXT [not null]
@@ -196,24 +197,24 @@ Enum STAT_TYPE {
   CHARISMA
 }
 
-Table statEffect {
+Table StatEffect {
   id SERIAL [primary key]
   stat STAT_TYPE [not null]
   modifier integer [not null]
 }
 
-Table resistance {
+Table Resistance {
   id SERIAL [primary key]
   stat DAMAGE_TYPE [not null]
   modifier integer [not null]
 }
 
-Table characterStatEffects {
-  characterId SERIAL [not null, ref: > character.id]
-  statEffectId SERIAL [not null, ref: > statEffect.id]
+Table CharacterStatEffects {
+  characterId SERIAL [not null, ref: > Character.id]
+  statEffectId SERIAL [not null, ref: > StatEffect.id]
 }
 
-Table characterResistances {
-  characterId SERIAL [not null, ref: > character.id]
-  resistanceId SERIAL [not null, ref: > resistance.id]
+Table CharacterResistances {
+  characterId SERIAL [not null, ref: > Character.id]
+  resistanceId SERIAL [not null, ref: > Resistance.id]
 }

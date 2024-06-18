@@ -1,0 +1,41 @@
+import * as t from "io-ts";
+import { User } from "./User";
+import { Campaign } from "./Campaign";
+
+export type CharacterT = t.TypeOf<typeof Character>;
+export const Character = t.type({
+  user: User,
+  campaign: Campaign,
+  level: t.Integer,
+  maxHP: t.Integer,
+  currentHP: t.Integer,
+  strength: t.Integer,
+  dexterity: t.Integer,
+  constitution: t.Integer,
+  intelligence: t.Integer,
+  wisdom: t.Integer,
+  charisma: t.Integer,
+  race: t.string,
+  subrace: t.string,
+  heightInches: t.Integer,
+  weightPounds: t.Integer,
+  speed: t.Integer,
+  isProficientInAcrobatics: t.boolean,
+  isProficientInAnimalHandling: t.boolean,
+  isProficientInArcana: t.boolean,
+  isProficientInAthletics: t.boolean,
+  isProficientInDeception: t.boolean,
+  isProficientInHistory: t.boolean,
+  isProficientInInsight: t.boolean,
+  isProficientInIntimidation: t.boolean,
+  isProficientInInvestigation: t.boolean,
+  isProficientInMedicine: t.boolean,
+  isProficientInNature: t.boolean,
+  isProficientInPerception: t.boolean,
+  isProficientInPerformance: t.boolean,
+  isProficientInPersuasion: t.boolean,
+  isProficientInReligion: t.boolean,
+  isProficientInSleightOfHand: t.boolean,
+  isProficientInStealth: t.boolean,
+  isProficientInSurvival: t.boolean,
+});

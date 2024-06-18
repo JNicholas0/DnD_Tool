@@ -1,9 +1,12 @@
 import * as t from "io-ts";
-import { DamageCausing, InventoryItem } from "./Base";
+import { DamageCausing, EquipableItem } from "./Base";
 
 export type WeaponT = t.TypeOf<typeof Weapon>;
 export const Weapon = t.intersection([
-  InventoryItem,
-  DamageCausing
+  EquipableItem,
+  DamageCausing,
+  t.type({
+    itemType: t.literal("WEAPON")
+  })
 ]);
 
