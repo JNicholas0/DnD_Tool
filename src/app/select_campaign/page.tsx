@@ -1,6 +1,6 @@
 
 
-export default function Select_Campaign(user: User) {
+export default function Select_Campaign() {
     return(
         <p>
             select campaign

@@ -18,13 +18,16 @@ const config: Config = {
   plugins: [
     require('daisyui'),
   ],
-};
-
-module.exports = {
-  //...
   daisyui: {
     themes: ["fantasy", "autumn", "emerald"],
   },
-}
+};
+
+// module.exports = {
+//   //...
+//   daisyui: {
+//     themes: ["fantasy", "autumn", "emerald"],
+//   },
+// }
 
 export default config;
