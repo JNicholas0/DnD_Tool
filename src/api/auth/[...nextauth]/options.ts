@@ -1,11 +1,9 @@
-import NextAuth from 'next-auth'
-// import AppleProvider from 'next-auth/providers/apple'
-// import FacebookProvider from 'next-auth/providers/facebook'
+import type { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import EmailProvider from 'next-auth/providers/email'
 
-const handler = NextAuth({
-  providers: [
+export const options: NextAuthOptions = {
+providers: [
     // OAuth authentication providers...
     // AppleProvider({
     //   clientId: process.env.APPLE_ID,
@@ -16,8 +14,15 @@ const handler = NextAuth({
     //   clientSecret: process.env.FACEBOOK_SECRET
     // }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      // profile(profile) {
+      //   return {
+      //     // Return all the profile information you need.
+      //     // The only truly required field is `id`
+      //     // to be able identify the account when added to a database
+      //   }
+      // },
     }),
     // Passwordless / email sign in
     EmailProvider({
@@ -25,6 +30,4 @@ const handler = NextAuth({
       from: 'NextAuth.js <no-reply@example.com>'
     }),
   ]
-})
-
-export { handler as GET, handler as POST }
+}

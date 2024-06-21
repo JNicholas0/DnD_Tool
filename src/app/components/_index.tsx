@@ -1,11 +1,13 @@
 import Hero from "./hero";
-import { ButtonLink, ButtonFunction } from "./button";
+import { ButtonLink, ButtonPromise } from "./button";
 import Navbar from "./navbar";
-import { NextAuthProvider } from "./authWrapper";
+import { LoginBox } from "./loginBox";
 
 export {
     Hero,
     ButtonLink,
+    ButtonPromise,
     Navbar,
-    NextAuthProvider
+    LoginBox,
+    //etc
 }

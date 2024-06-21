@@ -1,6 +1,6 @@
 'use client';
 
-import ButtonLink from "./button";
+import { ButtonLink } from "@_index";
 
 export default function Hero(title: string, subtitle: string) {
     return (

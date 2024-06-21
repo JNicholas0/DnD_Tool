@@ -5,13 +5,15 @@ export function ButtonLink(buttClassName: string, label: string, urlstring: stri
         {location.href = urlstring}
     };
     return(
-        ButtonFunction(buttClassName, label, handleUrlClick)
+        <button className={buttClassName} onClick={handleUrlClick}>
+            {label}
+    </button>
     );
 }
 
-export function ButtonFunction(buttClassName: string, label: string, fun: Function) {
+export function ButtonPromise(buttClassName: string, label: string, prom: Promise<undefined>) {
     return(
-        <button className={buttClassName} onClick={() => fun}>
+        <button className={buttClassName} onClick={() => prom}>
             {label}
     </button>
     );
